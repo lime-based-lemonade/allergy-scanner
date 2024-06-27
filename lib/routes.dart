@@ -12,7 +12,7 @@ class ApplicationRoutes {
   /// Get the map of application routes with widget builder functions
   static  Map<String, WidgetBuilder> getRoutesMap() => {
     home: (context) => const HomePage(),
-    allergenSelector: (context) => const AllergenSelectorPage(),
+    allergenSelector: (context) => AllergenSelectorPage(allergens: ['Apples', 'edjc', 'snjdj']),
     scanner: (context) => const ScannerPage()
   };
 }
