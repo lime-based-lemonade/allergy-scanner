@@ -29,17 +29,9 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         setState(() {
-          if (data['parsed'] != null && data['parsed'].isNotEmpty) {
-            _ingredients = (data['parsed'][0]['food']['foodContentsLabel'] as String)
-                .split(';')
-                .map((ingredient) => ingredient.trim().toLowerCase())
-                .toList();
-            _error = '';
-          } else if (data['hints'] != null && data['hints'].isNotEmpty) {
-            _ingredients = (data['hints'][0]['food']['foodContentsLabel'] as String)
-                .split(';')
-                .map((ingredient) => ingredient.trim().toLowerCase())
-                .toList();
+          FoodData foodData = FoodData.fromJson(data);
+          if (foodData.ingredients.isNotEmpty) {
+            _ingredients = foodData.ingredients;
             _error = '';
           } else {
             _error = 'No ingredients found for this product';
@@ -155,5 +147,27 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
         ),
       ),
     );
+  }
+}
+
+class FoodData {
+  final List<String> ingredients;
+
+  FoodData({required this.ingredients});
+
+  factory FoodData.fromJson(Map<String, dynamic> json) {
+    List<String> ingredients = [];
+    if (json['parsed'] != null && json['parsed'].isNotEmpty) {
+      ingredients = (json['parsed'][0]['food']['foodContentsLabel'] as String)
+          .split(';')
+          .map((ingredient) => ingredient.trim().toLowerCase())
+          .toList();
+    } else if (json['hints'] != null && json['hints'].isNotEmpty) {
+      ingredients = (json['hints'][0]['food']['foodContentsLabel'] as String)
+          .split(';')
+          .map((ingredient) => ingredient.trim().toLowerCase())
+          .toList();
+    }
+    return FoodData(ingredients: ingredients);
   }
 }
