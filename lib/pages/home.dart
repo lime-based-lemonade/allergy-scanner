@@ -17,25 +17,29 @@ class HomePage extends ConsumerWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            Column(
-              children: [
-                AllergenList(),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.pushNamed(context, ApplicationRoutes.allergenSelector);
-                    },
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  AllergenList(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        Navigator.pushNamed(context, ApplicationRoutes.allergenSelector);
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Padding(
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ScanHistoryTable(),
+                    child: SizedBox(
+                      height: 400, // Adjust the height as needed
+                      child: ScanHistoryTable(),
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 80), // To prevent the button from covering content
+                ],
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
