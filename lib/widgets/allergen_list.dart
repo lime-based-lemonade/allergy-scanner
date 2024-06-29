@@ -22,6 +22,7 @@ class _AllergenListState extends State<AllergenList> {
     "Fish",
     "Tree nuts",
     "Sesame",
+
   ];
 
   @override
