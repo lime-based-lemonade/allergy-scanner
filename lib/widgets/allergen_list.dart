@@ -80,11 +80,6 @@ class _AllergenListState extends State<AllergenList> {
           },
           child: Chip(
             label: Text(allergens[index]),
-            onDeleted: () {
-              setState(() {
-                allergens.removeAt(index);
-              });
-            },
           ),
         );
       }),

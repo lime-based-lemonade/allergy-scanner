@@ -19,25 +19,38 @@ class HomePage extends ConsumerWidget {
           children: [
             SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'My allergens',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                   AllergenList(),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.pushNamed(context, ApplicationRoutes.allergenSelector);
-                      },
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'History',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 400, // Adjust the height as needed
-                      child: ScanHistoryTable(),
+                    child: Column(
+                      children: [
+                        ScanHistoryTable(),
+                        const SizedBox(height: 70.0), // Add empty space below the table
+                      ],
                     ),
                   ),
-                  SizedBox(height: 80), // To prevent the button from covering content
                 ],
               ),
             ),

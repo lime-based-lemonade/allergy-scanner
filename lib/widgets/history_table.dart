@@ -20,8 +20,6 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
     {'timestamp': '2024-06-28 14:46', 'product': 'Product 8', 'compatible': 'Yes'},
     {'timestamp': '2024-06-28 14:49', 'product': 'Product 9', 'compatible': 'Yes'},
     {'timestamp': '2024-06-28 14:52', 'product': 'Product 10', 'compatible': 'No'},
-    {'timestamp': '', 'product': '', 'compatible': ''}, //! empty row for beautiful scroll
-    // Add more data here
   ];
 
   @override
@@ -64,38 +62,34 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
           ),
         ),
         // Data rows
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: _scanHistory.map((entry) {
-                return Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(child: Text(entry['timestamp'] ?? '')),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(child: Text(entry['product'] ?? '')),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(child: Text(entry['compatible'] ?? '')),
-                      ),
-                    ),
-                  ],
-                );
-              }).toList(),
-            ),
-          ),
+        Column(
+          children: _scanHistory.map((entry) {
+            return Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: Text(entry['timestamp'] ?? '')),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: Text(entry['product'] ?? '')),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: Text(entry['compatible'] ?? '')),
+                  ),
+                ),
+              ],
+            );
+          }).toList(),
         ),
       ],
     );
