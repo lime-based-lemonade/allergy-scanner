@@ -10,8 +10,8 @@ class FoodSearchScreen extends StatefulWidget {
 class _FoodSearchScreenState extends State<FoodSearchScreen> {
   final TextEditingController _foodController = TextEditingController();
   final TextEditingController _allergenController = TextEditingController();
-  final String _appId = '19a79a7f'; 
-  final String _appKey = '27976be65f8cf6a04d18861a6c4d1146'; 
+  final String _appId = '19a79a7f';
+  final String _appKey = '27976be65f8cf6a04d18861a6c4d1146';
   List<String> _ingredients = [];
   String _error = '';
   String _warning = '';
@@ -23,32 +23,39 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
       'app_key': _appKey,
     });
 
-    final response = await http.get(url);
+    try {
+      final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        if (data['parsed'] != null && data['parsed'].isNotEmpty) {
-          _ingredients = (data['parsed'][0]['food']['foodContentsLabel'] as String)
-              .split(', ')
-              .map((ingredient) => ingredient.trim().toLowerCase())
-              .toList();
-          _error = '';
-        } else if (data['hints'] != null && data['hints'].isNotEmpty) {
-          _ingredients = (data['hints'][0]['food']['foodContentsLabel'] as String)
-              .split(', ')
-              .map((ingredient) => ingredient.trim().toLowerCase())
-              .toList();
-          _error = '';
-        } else {
-          _error = 'No ingredients found for this product';
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          if (data['parsed'] != null && data['parsed'].isNotEmpty) {
+            _ingredients = (data['parsed'][0]['food']['foodContentsLabel'] as String)
+                .split(';')
+                .map((ingredient) => ingredient.trim().toLowerCase())
+                .toList();
+            _error = '';
+          } else if (data['hints'] != null && data['hints'].isNotEmpty) {
+            _ingredients = (data['hints'][0]['food']['foodContentsLabel'] as String)
+                .split(';')
+                .map((ingredient) => ingredient.trim().toLowerCase())
+                .toList();
+            _error = '';
+          } else {
+            _error = 'No ingredients found for this product';
+            _ingredients = [];
+          }
+          _checkForAllergens();
+        });
+      } else {
+        setState(() {
+          _error = 'Failed to fetch data, status code: ${response.statusCode}';
           _ingredients = [];
-        }
-        _checkForAllergens();
-      });
-    } else {
+        });
+      }
+    } catch (e) {
       setState(() {
-        _error = 'Failed to fetch data, status code: ${response.statusCode}';
+        _error = 'Network error occurred: $e';
         _ingredients = [];
       });
     }
@@ -60,12 +67,24 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
         .map((allergen) => allergen.trim().toLowerCase())
         .toList();
 
-    List<String> matchingIngredients = _ingredients.where((ingredient) {
-      return allergens.contains(ingredient);
-    }).toList();
+    Map<String, List<String>> allergenMatches = {};
 
-    if (matchingIngredients.isNotEmpty) {
-      _warning = 'Warning: The following ingredients match your allergens: ${matchingIngredients.join(', ')}';
+    for (var allergen in allergens) {
+      for (var ingredient in _ingredients) {
+        if (ingredient.contains(allergen)) {
+          if (!allergenMatches.containsKey(allergen)) {
+            allergenMatches[allergen] = [];
+          }
+          allergenMatches[allergen]!.add(ingredient);
+        }
+      }
+    }
+
+    if (allergenMatches.isNotEmpty) {
+      _warning = 'Warning: The following ingredients match your allergens:\n';
+      allergenMatches.forEach((allergen, ingredients) {
+        _warning += '- Allergen "$allergen" found in: ${ingredients.join(', ')}\n';
+      });
     } else {
       _warning = 'All safe!';
     }
