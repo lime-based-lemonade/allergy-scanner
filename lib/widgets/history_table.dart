@@ -27,15 +27,15 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
             children: const [
               Expanded(flex: 2, child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text('Timestamp', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: Center(child: Text('Timestamp', style: TextStyle(fontWeight: FontWeight.bold))),
               )),
               Expanded(flex: 3, child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text('Product Name', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: Center(child: Text('Product Name', style: TextStyle(fontWeight: FontWeight.bold))),
               )),
               Expanded(flex: 2, child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text('Compatible', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: Center(child: Text('Compatible', style: TextStyle(fontWeight: FontWeight.bold))),
               )),
             ],
           ),
@@ -60,15 +60,15 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
                   children: [
                     Expanded(flex: 2, child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(entry['timestamp'] ?? ''),
+                      child: Center(child: Text(entry['timestamp'] ?? '')),
                     )),
                     Expanded(flex: 3, child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(entry['product'] ?? ''),
+                      child: Center(child: Text(entry['product'] ?? '')),
                     )),
                     Expanded(flex: 2, child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(entry['compatible'] ?? ''),
+                      child: Center(child: Text(entry['compatible'] ?? '')),
                     )),
                   ],
                 );
@@ -80,4 +80,3 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
     );
   }
 }
-
