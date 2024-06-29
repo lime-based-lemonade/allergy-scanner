@@ -65,9 +65,25 @@ class HomePage extends ConsumerWidget {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
                     textStyle: const TextStyle(fontSize: 24),
+                    foregroundColor: Color.fromARGB(255, 60, 115, 37),
+                    side: const BorderSide(
+                      color: Color.fromARGB(255, 60, 115, 37), // Green border color
+                      width: 2.0, // Border width
+                    ),
                   ),
                   child: const Text('Scan'),
                 ),
+              ),
+            ),
+            Positioned(
+              top: 16.0,
+              right: 16.0,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, ApplicationRoutes.allergenSelector);
+                },
+                child: const Icon(Icons.edit),
+                backgroundColor: Color.fromARGB(200, 175, 203, 163),
               ),
             ),
           ],
