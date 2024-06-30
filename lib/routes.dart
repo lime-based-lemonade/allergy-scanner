@@ -15,13 +15,11 @@ class ApplicationRoutes {
   /// Get the map of application routes with widget builder functions
   static  Map<String, WidgetBuilder> getRoutesMap() => {
     home: (context) => const HomePage(),
-<<<<<<< wrapper
-    allergenSelector: (context) => const AllergenSelectorPage(),
+
     scanner: (context) => const ScannerPage(),
     foodSearch: (context) => FoodSearchScreen(),
-=======
+
     allergenSelector: (context) => AllergenSelectorPage(),
     scanner: (context) => const ScannerPage()
->>>>>>> master
   };
 }

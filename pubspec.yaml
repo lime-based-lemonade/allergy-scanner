@@ -12,13 +12,13 @@ dependencies:
   cupertino_icons: ^1.0.6
   freezed_annotation: ^2.4.1
   flutter_riverpod: ^2.5.1
-<<<<<<< wrapper
+
   http: ^1.2.1
   flutter_localizations:
     sdk: flutter
-=======
+    http: ^1.2.1
   provider: ^6.1.2
->>>>>>> master
+
 
 dev_dependencies:
   flutter_test:
