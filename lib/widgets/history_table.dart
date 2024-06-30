@@ -61,7 +61,6 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
             ],
           ),
         ),
-        // Data rows
         Column(
           children: _scanHistory.map((entry) {
             return Row(
