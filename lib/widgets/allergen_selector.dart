@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lime_based_application/pages/allergen_selector.dart';
 
-class SelectorList extends StatefulWidget {
-  final String searchText;
-
-  SelectorList({required this.searchText});
-
-  @override
-  AllergenListState createState() => AllergenListState();
-}
-
-class AllergenListState extends State<SelectorList> {
-  List<String> allergens = [
+final allergensProvider = Provider<List<String>>((ref) {
+  return [
     "Calcium", "Carbohydrate (net)", "Carbohydrate, by difference", "Cholesterol", "Energy",
     "Fatty acids, total monounsaturated", "Fatty acids, total polyunsaturated", "Fatty acids, total saturated",
     "Fatty acids, total trans", "Fiber, total dietary", "Folate, DFE", "Folate, food", "Folic acid", "Iron, Fe",
@@ -19,13 +12,24 @@ class AllergenListState extends State<SelectorList> {
     "Vitamin C, total ascorbic acid", "Vitamin D (D2 + D3)", "Vitamin E (alpha-tocopherol)", "Vitamin K (phylloquinone)",
     "Water", "Zinc, Zn"
   ];
+});
 
-  Set<String> _selectedAllergens = Set<String>();
+final selectedAllergensProvider = StateProvider<Set<String>>((ref) {
+  return <String>{};
+});
+
+class SelectorList extends ConsumerWidget {
+  final String searchText;
+
+  SelectorList({required this.searchText});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final allergens = ref.watch(allergensProvider);
+    final selectedAllergens = ref.watch(selectedAllergensProvider);
+
     List<String> filteredAllergens = allergens.where((allergen) {
-      return allergen.toLowerCase().contains(widget.searchText);
+      return allergen.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
 
     return Padding(
@@ -35,7 +39,7 @@ class AllergenListState extends State<SelectorList> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              dynamicChips(filteredAllergens),
+              dynamicChips(context, ref, filteredAllergens, selectedAllergens),
             ],
           ),
         ],
@@ -43,22 +47,22 @@ class AllergenListState extends State<SelectorList> {
     );
   }
 
-  Widget dynamicChips(List<String> filteredAllergens) {
+  Widget dynamicChips(BuildContext context, WidgetRef ref, List<String> filteredAllergens, Set<String> selectedAllergens) {
     return Wrap(
       spacing: 6.0,
       runSpacing: 6.0,
       children: filteredAllergens.map((allergen) {
-        bool isSelected = _selectedAllergens.contains(allergen);
+        bool isSelected = selectedAllergens.contains(allergen);
         return FilterChip(
           selected: isSelected,
           onSelected: (bool selected) {
-            setState(() {
-              if (selected) {
-                _selectedAllergens.add(allergen);
-              } else {
-                _selectedAllergens.remove(allergen);
-              }
-            });
+            final newSelectedAllergens = Set<String>.from(selectedAllergens);
+            if (selected) {
+              newSelectedAllergens.add(allergen);
+            } else {
+              newSelectedAllergens.remove(allergen);
+            }
+            ref.read(selectedAllergensProvider.notifier).state = newSelectedAllergens;
           },
           backgroundColor: isSelected
               ? Color(0xFFE8DEF8)

@@ -1,88 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lime_based_application/widgets/allergen_selector.dart'; // Ensure this imports the SelectorList with providers
 
-/// Horizontally scrollable list of allergens represented with Material chips.
-class AllergenList extends StatefulWidget {
-  const AllergenList({super.key});
-
+class AllergenList extends ConsumerStatefulWidget {
   @override
-  State<AllergenList> createState() => _AllergenListState();
+  _AllergenListState createState() => _AllergenListState();
 }
 
-class _AllergenListState extends State<AllergenList> {
-  List<String> allergens = [
-   "Peanuts",
-    "Shellfish",
-    "Milk",
-    "Eggs",
-    "Wheat",
-    "Soy",
-    "Fish",
-    "Tree nuts",
-    "Sesame",
-    "Peanuts",
-    "Shellfish",
-    "Milk",
-    "Eggs",
-    "Wheat",
-    "Soy",
-    "Fish",
-    "Tree nuts",
-    "Sesame",
-    "Peanuts",
-    "Shellfish",
-    "Milk",
-    "Eggs",
-    "Wheat",
-    "Soy",
-    "Fish",
-    "Tree nuts",
-    "Sesame",
-  ];
-
-  bool _showAll = false;
-  final int _maxRows = 12;
+class _AllergenListState extends ConsumerState<AllergenList> {
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+    final selectedAllergens = ref.watch(selectedAllergensProvider);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          dynamicChips(),
-          if (allergens.length > _maxRows)
+          if (selectedAllergens.isEmpty)
+            Text('No allergens selected')
+          else
+            dynamicChips(selectedAllergens),
+          if (selectedAllergens.length > 10)
             TextButton(
               onPressed: () {
                 setState(() {
-                  _showAll = !_showAll;
+                  _isExpanded = !_isExpanded;
                 });
               },
-              child: Text(_showAll ? 'Show Less' : 'Show More'),
+              child: Text(_isExpanded ? 'Show less' : 'Show more'),
             ),
         ],
       ),
     );
   }
 
-  Widget dynamicChips() {
-    int chipsToShow = _showAll ? allergens.length : (_maxRows > allergens.length ? allergens.length : _maxRows);
+  Widget dynamicChips(Set<String> selectedAllergens) {
+    final allergensToShow = _isExpanded
+        ? selectedAllergens
+        : selectedAllergens.take(10);
 
     return Wrap(
       spacing: 6.0,
       runSpacing: 6.0,
-      children: List<Widget>.generate(chipsToShow, (int index) {
-        return InkWell(
-          onTap: () {
-            // Handle tap event
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Tapped on ${allergens[index]}')),
-            );
-          },
-          child: Chip(
-            label: Text(allergens[index]),
-          ),
+      children: allergensToShow.map((allergen) {
+        return Chip(
+          label: Text(allergen),
         );
-      }),
+      }).toList(),
     );
   }
 }

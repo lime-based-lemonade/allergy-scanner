@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/widgets/allergen_selector.dart';
 
-class AllergenSelectorPage extends StatefulWidget {
+class AllergenSelectorPage extends ConsumerStatefulWidget {
   @override
   _AllergenSelectorPageState createState() => _AllergenSelectorPageState();
 }
 
-class _AllergenSelectorPageState extends State<AllergenSelectorPage> {
+class _AllergenSelectorPageState extends ConsumerState<AllergenSelectorPage> {
   String searchText = '';
   final TextEditingController _controller = TextEditingController();
 
@@ -28,7 +28,7 @@ class _AllergenSelectorPageState extends State<AllergenSelectorPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Do you have any allergies?',
+          'Select allergens',
           style: TextStyle(fontSize: 30),
         ),
       ),
