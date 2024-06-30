@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/pages/scanner.dart';
+import 'package:lime_based_application/providers/theme_provider.dart';
 import 'package:lime_based_application/routes.dart';
 import 'package:lime_based_application/widgets/allergen_list.dart';
 import 'package:lime_based_application/widgets/history_table.dart';
+
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -13,6 +15,14 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Allergen Scanner'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.brightness_6),
+            onPressed: () {
+              ref.read(themeNotifierProvider.notifier).toggleTheme();
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: Stack(
@@ -47,7 +57,7 @@ class HomePage extends ConsumerWidget {
                     child: Column(
                       children: [
                         ScanHistoryTable(),
-                        const SizedBox(height: 70.0), // Add empty space below the table
+                        const SizedBox(height: 70.0),
                       ],
                     ),
                   ),
@@ -65,10 +75,10 @@ class HomePage extends ConsumerWidget {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
                     textStyle: const TextStyle(fontSize: 24),
-                    foregroundColor: Color.fromARGB(255, 60, 115, 37),
+                    foregroundColor: const Color.fromARGB(255, 60, 115, 37),
                     side: const BorderSide(
-                      color: Color.fromARGB(255, 60, 115, 37), // Green border color
-                      width: 2.0, // Border width
+                      color: Color.fromARGB(255, 60, 115, 37),
+                      width: 2.0,
                     ),
                   ),
                   child: const Text('Scan'),
@@ -83,7 +93,7 @@ class HomePage extends ConsumerWidget {
                   Navigator.pushNamed(context, ApplicationRoutes.allergenSelector);
                 },
                 child: const Icon(Icons.edit),
-                backgroundColor: Color.fromARGB(200, 175, 203, 163),
+                backgroundColor: const Color.fromARGB(200, 175, 203, 163),
               ),
             ),
           ],
