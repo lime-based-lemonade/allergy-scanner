@@ -4,6 +4,7 @@ import 'package:lime_based_application/pages/scanner.dart';
 import 'package:lime_based_application/routes.dart';
 import 'package:lime_based_application/widgets/allergen_list.dart';
 import 'package:lime_based_application/widgets/history_table.dart';
+import 'package:lime_based_application/generated/l10n.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -12,7 +13,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Allergen Scanner'),
+        title: Text(S.of(context).AllergenScanner),
       ),
       body: SafeArea(
         child: Stack(
@@ -21,33 +22,33 @@ class HomePage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'My allergens',
-                      style: TextStyle(
+                      S.of(context).Myallergens,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   AllergenList(),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'History',
-                      style: TextStyle(
+                      S.of(context).History,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         ScanHistoryTable(),
-                        const SizedBox(height: 70.0), // Add empty space below the table
+                        SizedBox(height: 70.0), // Add empty space below the table
                       ],
                     ),
                   ),
@@ -71,7 +72,7 @@ class HomePage extends ConsumerWidget {
                       width: 2.0, // Border width
                     ),
                   ),
-                  child: const Text('Scan'),
+                  child: Text(S.of(context).Scan),
                 ),
               ),
             ),

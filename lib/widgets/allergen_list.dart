@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/widgets/allergen_selector.dart'; // Ensure this imports the SelectorList with providers
+import 'package:lime_based_application/generated/l10n.dart';
 
 class AllergenList extends ConsumerStatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _AllergenListState extends ConsumerState<AllergenList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (selectedAllergens.isEmpty)
-            Text('No allergens selected')
+            Text(S.of(context).Noallergensselected)
           else
             dynamicChips(selectedAllergens),
           if (selectedAllergens.length > 10)
@@ -30,7 +31,7 @@ class _AllergenListState extends ConsumerState<AllergenList> {
                   _isExpanded = !_isExpanded;
                 });
               },
-              child: Text(_isExpanded ? 'Show less' : 'Show more'),
+              child: Text(_isExpanded ? S.of(context).Showless : S.of(context).Showmore),
             ),
         ],
       ),

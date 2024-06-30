@@ -1,0 +1,28 @@
+{
+    "timestamp": "Дата и время",
+    "product": "продукт",
+    "compatibleU": "Безопасно",
+    "ProductName": "Имя продукта",
+    "compatibleL": "безопасно",
+    "Noallergensselected": "Ни одного аллергена не выбрано",
+    "Showless": "Скрыть",
+    "Showmore": "Ещё",
+    "History": "История",
+    "Scan": "Сканировать",
+    "AllergenScanner": "Сканер Аллергенов",
+    "Myallergens": "Мои аллергены",
+    "WarningMessageAboutIngredient": "Внимание: Следующие ингредиенты совпадают с вашими аллергенами:",
+    "Allergenfound": "Аллерген {allergen} найден в: ",
+    "@Allergenfound" : {
+        "placeholders": {
+            "allergen": {}
+        }
+    },
+    "Allsafe": "Безопасно!",
+    "FindIngredients": "Найти Ингредиенты",
+    "Enterfoodname": "Введите имя продукта",
+    "Enterallergenscommaseparated": "Введите аллергены (через запятую)",
+    "Search": "Поиск",
+    "Warning": "Внимание",
+    "SelectAllergens": "Выбор аллергенов"
+}
