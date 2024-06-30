@@ -1,71 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lime_based_application/widgets/allergen_selector.dart';
 
-class AllergenProvider extends ChangeNotifier {
-  final Set<String> _selectedAllergens = <String>{};
-
-  Set<String> get selectedAllergens => _selectedAllergens;
-
-  void toggleAllergen(String allergen) {
-    if (_selectedAllergens.contains(allergen)) {
-      _selectedAllergens.remove(allergen);
-    } else {
-      _selectedAllergens.add(allergen);
-    }
-    notifyListeners();
-  }
+class AllergenSelectorPage extends StatefulWidget {
+  @override
+  _AllergenSelectorPageState createState() => _AllergenSelectorPageState();
 }
 
-class AllergenSelectorPage extends ConsumerWidget {
-  final List<String> allergens;
+class _AllergenSelectorPageState extends State<AllergenSelectorPage> {
+  String searchText = '';
+  final TextEditingController _controller = TextEditingController();
 
-  final allergenProvider = ChangeNotifierProvider((ref) => AllergenProvider());
-
-  AllergenSelectorPage({super.key, required this.allergens});
+  void searchAndHighlight(String text) {
+    setState(() {
+      searchText = text.toLowerCase();
+    });
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selectedAllergens = ref.watch<Set<String>>(allergenProvider as ProviderListenable<Set<String>>);
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Allergen Selector'),
+        title: Text(
+          'Do you have any allergies?',
+          style: TextStyle(fontSize: 30),
+        ),
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 0, 0),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: allergens.length,
-          itemBuilder: (context, index) {
-            final allergen = allergens[index];
-            final isSelected = selectedAllergens.contains(allergen);
-
-            return GestureDetector(
-              onTap: () {
-                ref.read(allergenProvider).toggleAllergen(allergen);
-              },
-              child: Container(
-                margin: EdgeInsets.only(right: 16.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isSelected
-                      ? Colors.grey[700]
-                      : Colors.grey[300],
-                ),
-                padding: EdgeInsets.all(16.0),
-                child: Center(
-                  child: Text(
-                    allergen,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+      body: Center(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      onChanged: (text) {
+                        setState(() {
+                          searchText = text.toLowerCase();
+                        });
+                      },
+                      onSubmitted: (text) {
+                        searchAndHighlight(text);
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Search',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(width: 10),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () => searchAndHighlight(_controller.text),
+                  ),
+                ],
               ),
-            );
-          },
+            ),
+            Expanded(
+              child: SelectorList(searchText: searchText),
+            ),
+          ],
         ),
       ),
     );
