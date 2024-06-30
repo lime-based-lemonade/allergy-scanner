@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+<<<<<<< wrapper
+import 'package:lime_based_application/routes.dart';
+
+=======
 import 'package:lime_based_application/pages/scanner.dart';
 import 'package:lime_based_application/routes.dart';
 import 'package:lime_based_application/widgets/allergen_list.dart';
 import 'package:lime_based_application/widgets/history_table.dart';
+>>>>>>> master
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -12,6 +17,21 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
+<<<<<<< wrapper
+        title: const Text('Home'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, ApplicationRoutes.foodSearch);
+              },
+              child: const Text('Go to Food Search'),
+            ),
+            SizedBox(height: 16),
+=======
         title: const Text('Allergen Scanner'),
       ),
       body: SafeArea(
@@ -86,6 +106,7 @@ class HomePage extends ConsumerWidget {
                 backgroundColor: Color.fromARGB(200, 175, 203, 163),
               ),
             ),
+>>>>>>> master
           ],
         ),
       ),
