@@ -291,100 +291,520 @@ class S {
   }
 
   /// `Milk`
-  String get AllergenMilk {
+  String get Milk {
     return Intl.message(
       'Milk',
-      name: 'AllergenMilk',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Cereals`
-  String get AllergenCereals {
-    return Intl.message(
-      'Cereals',
-      name: 'AllergenCereals',
+      name: 'Milk',
       desc: '',
       args: [],
     );
   }
 
   /// `Eggs`
-  String get AllergenEggs {
+  String get Eggs {
     return Intl.message(
       'Eggs',
-      name: 'AllergenEggs',
+      name: 'Eggs',
       desc: '',
       args: [],
     );
   }
 
   /// `Fish`
-  String get AllergenFish {
+  String get Fish {
     return Intl.message(
       'Fish',
-      name: 'AllergenFish',
+      name: 'Fish',
       desc: '',
       args: [],
     );
   }
 
-  /// `Gluten`
-  String get AllergenGluten {
+  /// `Crustacean shellfish`
+  String get Crustacean_shellfish {
     return Intl.message(
-      'Gluten',
-      name: 'AllergenGluten',
+      'Crustacean shellfish',
+      name: 'Crustacean_shellfish',
       desc: '',
       args: [],
     );
   }
 
-  /// `Nuts`
-  String get AllergenNuts {
+  /// `Tree nuts`
+  String get Tree_nuts {
     return Intl.message(
-      'Nuts',
-      name: 'AllergenNuts',
+      'Tree nuts',
+      name: 'Tree_nuts',
       desc: '',
       args: [],
     );
   }
 
   /// `Peanuts`
-  String get AllergenPeanuts {
+  String get Peanuts {
     return Intl.message(
       'Peanuts',
-      name: 'AllergenPeanuts',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Soybeans`
-  String get AllergenSoybeans {
-    return Intl.message(
-      'Soybeans',
-      name: 'AllergenSoybeans',
+      name: 'Peanuts',
       desc: '',
       args: [],
     );
   }
 
   /// `Wheat`
-  String get AllergenWheat {
+  String get Wheat {
     return Intl.message(
       'Wheat',
-      name: 'AllergenWheat',
+      name: 'Wheat',
       desc: '',
       args: [],
     );
   }
 
-  /// `Other`
-  String get AllergenOther {
+  /// `Soybeans`
+  String get Soybeans {
     return Intl.message(
-      'Other',
-      name: 'AllergenOther',
+      'Soybeans',
+      name: 'Soybeans',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sesame`
+  String get Sesame {
+    return Intl.message(
+      'Sesame',
+      name: 'Sesame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mustard`
+  String get Mustard {
+    return Intl.message(
+      'Mustard',
+      name: 'Mustard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sulfites`
+  String get Sulfites {
+    return Intl.message(
+      'Sulfites',
+      name: 'Sulfites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lupin`
+  String get Lupin {
+    return Intl.message(
+      'Lupin',
+      name: 'Lupin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mollusks`
+  String get Mollusks {
+    return Intl.message(
+      'Mollusks',
+      name: 'Mollusks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Celery`
+  String get Celery {
+    return Intl.message(
+      'Celery',
+      name: 'Celery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sulphur dioxide`
+  String get Sulphur_dioxide {
+    return Intl.message(
+      'Sulphur dioxide',
+      name: 'Sulphur_dioxide',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gluten`
+  String get Gluten {
+    return Intl.message(
+      'Gluten',
+      name: 'Gluten',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Corn`
+  String get Corn {
+    return Intl.message(
+      'Corn',
+      name: 'Corn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kiwi`
+  String get Kiwi {
+    return Intl.message(
+      'Kiwi',
+      name: 'Kiwi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pineapple`
+  String get Pineapple {
+    return Intl.message(
+      'Pineapple',
+      name: 'Pineapple',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Avocado`
+  String get Avocado {
+    return Intl.message(
+      'Avocado',
+      name: 'Avocado',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Banana`
+  String get Banana {
+    return Intl.message(
+      'Banana',
+      name: 'Banana',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coconut`
+  String get Coconut {
+    return Intl.message(
+      'Coconut',
+      name: 'Coconut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Strawberries`
+  String get Strawberries {
+    return Intl.message(
+      'Strawberries',
+      name: 'Strawberries',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Raspberries`
+  String get Raspberries {
+    return Intl.message(
+      'Raspberries',
+      name: 'Raspberries',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blueberries`
+  String get Blueberries {
+    return Intl.message(
+      'Blueberries',
+      name: 'Blueberries',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blackberries`
+  String get Blackberries {
+    return Intl.message(
+      'Blackberries',
+      name: 'Blackberries',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mango`
+  String get Mango {
+    return Intl.message(
+      'Mango',
+      name: 'Mango',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Peaches`
+  String get Peaches {
+    return Intl.message(
+      'Peaches',
+      name: 'Peaches',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Plums`
+  String get Plums {
+    return Intl.message(
+      'Plums',
+      name: 'Plums',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apples`
+  String get Apples {
+    return Intl.message(
+      'Apples',
+      name: 'Apples',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pears`
+  String get Pears {
+    return Intl.message(
+      'Pears',
+      name: 'Pears',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cherries`
+  String get Cherries {
+    return Intl.message(
+      'Cherries',
+      name: 'Cherries',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grapes`
+  String get Grapes {
+    return Intl.message(
+      'Grapes',
+      name: 'Grapes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Oranges`
+  String get Oranges {
+    return Intl.message(
+      'Oranges',
+      name: 'Oranges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lemons`
+  String get Lemons {
+    return Intl.message(
+      'Lemons',
+      name: 'Lemons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Limes`
+  String get Limes {
+    return Intl.message(
+      'Limes',
+      name: 'Limes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grapefruit`
+  String get Grapefruit {
+    return Intl.message(
+      'Grapefruit',
+      name: 'Grapefruit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tomatoes`
+  String get Tomatoes {
+    return Intl.message(
+      'Tomatoes',
+      name: 'Tomatoes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Potatoes`
+  String get Potatoes {
+    return Intl.message(
+      'Potatoes',
+      name: 'Potatoes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Carrots`
+  String get Carrots {
+    return Intl.message(
+      'Carrots',
+      name: 'Carrots',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cucumbers`
+  String get Cucumbers {
+    return Intl.message(
+      'Cucumbers',
+      name: 'Cucumbers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bell peppers`
+  String get Bell_peppers {
+    return Intl.message(
+      'Bell peppers',
+      name: 'Bell_peppers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Spinach`
+  String get Spinach {
+    return Intl.message(
+      'Spinach',
+      name: 'Spinach',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Broccoli`
+  String get Broccoli {
+    return Intl.message(
+      'Broccoli',
+      name: 'Broccoli',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cauliflower`
+  String get Cauliflower {
+    return Intl.message(
+      'Cauliflower',
+      name: 'Cauliflower',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Onions`
+  String get Onions {
+    return Intl.message(
+      'Onions',
+      name: 'Onions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Garlic`
+  String get Garlic {
+    return Intl.message(
+      'Garlic',
+      name: 'Garlic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Almonds`
+  String get Almonds {
+    return Intl.message(
+      'Almonds',
+      name: 'Almonds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cashews`
+  String get Cashews {
+    return Intl.message(
+      'Cashews',
+      name: 'Cashews',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Walnuts`
+  String get Walnuts {
+    return Intl.message(
+      'Walnuts',
+      name: 'Walnuts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pistachios`
+  String get Pistachios {
+    return Intl.message(
+      'Pistachios',
+      name: 'Pistachios',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Crustaceans`
+  String get Crustaceans {
+    return Intl.message(
+      'Crustaceans',
+      name: 'Crustaceans',
       desc: '',
       args: [],
     );

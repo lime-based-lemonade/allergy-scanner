@@ -1,13 +1,16 @@
 import 'dart:convert';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:lime_based_application/routes.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+
+enum _DataFetchingState { idle, fetching, done, error }
 
 class FoodSearchScreen extends StatefulWidget {
-  final Set<String> allergens;
+  final List<String> allergens = ['milk', 'soy', 'bean'];
 
-  const FoodSearchScreen({super.key, required this.allergens});
+  FoodSearchScreen({super.key});
 
   @override
   _FoodSearchScreenState createState() => _FoodSearchScreenState();
@@ -20,10 +23,14 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   List<String> _ingredients = [];
   String _error = '';
   String _warning = '';
+  Barcode? _barcode;
+  _DataFetchingState _fetchingState = _DataFetchingState.idle;
 
   Future<void> _fetchFoodData(String foodName) async {
+    print('Fetching data about $foodName');
+
     final url = Uri.https('api.edamam.com', '/api/food-database/v2/parser', {
-      'ingr': foodName,
+      'upc': foodName,
       'app_id': _appId,
       'app_key': _appKey,
     });
@@ -32,13 +39,16 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
+        print('status code 200');
         final data = json.decode(response.body);
         setState(() {
+          _fetchingState = _DataFetchingState.done;
           FoodData foodData = FoodData.fromJson(data);
           if (foodData.ingredients.isNotEmpty) {
             _ingredients = foodData.ingredients;
             _error = '';
           } else {
+            print('bad code: ${response.statusCode}');
             _error = S.of(context).Noingredientsfound;
             _ingredients = [];
           }
@@ -46,14 +56,17 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
         });
       } else {
         setState(() {
+          _fetchingState = _DataFetchingState.error;
           _error =
               '${S.of(context).Failedtofetchdatastatuscode}${response.statusCode}';
           _ingredients = [];
         });
       }
-    } catch (e) {
+    } catch (exception) {
+      print('catch: ${S.of(context).Networkerroroccurred}');
       setState(() {
-        _error = '${S.of(context).Networkerroroccurred}$e';
+        _fetchingState = _DataFetchingState.error;
+        _error = '${S.of(context).Networkerroroccurred}$exception';
         _ingredients = [];
       });
     }
@@ -73,81 +86,137 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
       }
     }
 
-    if (allergenMatches.isNotEmpty) {
-      _warning = '${S.of(context).WarningMessageAboutIngredient}\n';
-      allergenMatches.forEach((allergen, ingredients) {
-        _warning +=
-            '- ${S.of(context).Allergenfound(allergen)}${ingredients.join(', ')}\n';
+    setState(() {
+      if (allergenMatches.isNotEmpty) {
+        _warning = '${S.of(context).WarningMessageAboutIngredient}\n';
+        allergenMatches.forEach((allergen, ingredients) {
+          _warning +=
+              '- ${S.of(context).Allergenfound(allergen)}${ingredients.join(', ')}\n';
+        });
+      } else {
+        _warning = S.of(context).Allsafe;
+      }
+    });
+  }
+
+  void _handleBarcode(BarcodeCapture barcodes) {
+    if (mounted) {
+      setState(() {
+        _barcode = barcodes.barcodes.firstOrNull;
+        print(
+            'barcode state updated ${barcodes.barcodes.firstOrNull?.displayValue}');
+        if (_barcode?.displayValue != null) {
+          _fetchingState = _DataFetchingState.fetching;
+          _fetchFoodData(_barcode!.displayValue!);
+        }
       });
-    } else {
-      _warning = S.of(context).Allsafe;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).FindIngredients),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _foodController,
-              decoration: InputDecoration(
-                labelText: S.of(context).Enterfoodname,
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(
-                labelText: S.of(context).Enterallergenscommaseparated,
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                _fetchFoodData(_foodController.text);
-              },
-              child: Text(S.of(context).Search),
-            ),
-            SizedBox(height: 16),
-            _error.isNotEmpty
-                ? Text(
-                    _error,
-                    style: TextStyle(color: Colors.red),
-                  )
-                : Expanded(
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: _ingredients.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(_ingredients[index]),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          _warning,
-                          style: TextStyle(
-                            color: _warning.contains(S.of(context).Warning)
-                                ? Colors.red
-                                : Colors.green,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-          ],
+        appBar: AppBar(title: const Text('Simple scanner')),
+        body: _buildBody());
+  }
+
+  Widget _buildBody() {
+    switch (_fetchingState) {
+      case _DataFetchingState.idle:
+        return _buildWidgetIdle();
+      case _DataFetchingState.fetching:
+        return _buildWidgetFetching();
+      case _DataFetchingState.done:
+        return _buildWidgetDone();
+      case _DataFetchingState.error:
+        return _buildWidgetError();
+    }
+  }
+
+  Widget _buildWidgetIdle() {
+    return Stack(
+      children: [
+        MobileScanner(
+          onDetect: _handleBarcode,
         ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            alignment: Alignment.bottomCenter,
+            height: 100,
+            color: Colors.black.withOpacity(0.4),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(child: Center(child: Text('Scan the barcode'))),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWidgetFetching() {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(),
+          SizedBox(
+            height: 16,
+          ),
+          Text('Fetching data...')
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWidgetDone() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Data successfully fetched!',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Text(_warning),
+          const SizedBox(
+            height: 16,
+          ),
+          FilledButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, ApplicationRoutes.home),
+              child: const Text('Go back')),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWidgetError() {
+    return Center(
+      child: Column(
+        children: [
+          Text(
+            'Error fetching data',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Text(_error),
+          const SizedBox(
+            height: 16,
+          ),
+          FilledButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, ApplicationRoutes.home),
+              child: const Text('Go back')),
+        ],
       ),
     );
   }
