@@ -72,12 +72,12 @@ class HomePage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         ScanHistoryTable(),
-                        SizedBox(height: 70.0), // Add empty space below the table
+                        const SizedBox(height: 70.0), // Add empty space below the table
                       ],
                     )
                   ),],

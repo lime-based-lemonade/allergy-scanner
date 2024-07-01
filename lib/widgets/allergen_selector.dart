@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lime_based_application/data/allergens.dart';
+import 'package:lime_based_application/data/allergens_provider.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 
 Provider<List<String>> getAllergenName(BuildContext context) {
