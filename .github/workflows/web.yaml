@@ -23,6 +23,8 @@ jobs:
 
       - run: flutter analyze --no-fatal-warnings --no-fatal-infos lib/
 
+      - run: flatter build web
+
       # - uses: bluefireteam/flutter-gh-pages@v7
         # with:
         #   baseHref: /Sum24FlutterCourse/
