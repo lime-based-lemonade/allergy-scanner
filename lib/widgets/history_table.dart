@@ -1,4 +1,6 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:lime_based_application/generated/l10n.dart';
 
 class ScanHistoryTable extends StatefulWidget {
   const ScanHistoryTable({super.key});
@@ -30,13 +32,13 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
         Container(
           color: Colors.grey[300],
           child: Row(
-            children: const [
+            children: [
               Expanded(
                 flex: 2,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(
-                    child: Text('Timestamp', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(S.of(context).timestamp, style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ),
@@ -45,7 +47,7 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(
-                    child: Text('Product Name', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(S.of(context).ProductName, style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ),
@@ -54,7 +56,7 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(
-                    child: Text('Compatible', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(S.of(context).compatibleU, style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ),
@@ -69,21 +71,21 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
                   flex: 2,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Text(entry['timestamp'] ?? '')),
+                    child: Center(child: Text(entry["timestamp"] ?? '')),
                   ),
                 ),
                 Expanded(
                   flex: 3,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Text(entry['product'] ?? '')),
+                    child: Center(child: Text(entry["product"] ?? '')),
                   ),
                 ),
                 Expanded(
                   flex: 2,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Text(entry['compatible'] ?? '')),
+                    child: Center(child: Text(entry["compatible"] ?? '')),
                   ),
                 ),
               ],

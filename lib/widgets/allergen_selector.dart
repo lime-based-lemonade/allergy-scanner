@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/pages/allergen_selector.dart';
+import 'package:lime_based_application/generated/l10n.dart';
 
 final allergensProvider = Provider<List<String>>((ref) {
   return [
-    "Calcium", "Carbohydrate (net)", "Carbohydrate, by difference", "Cholesterol", "Energy",
-    "Fatty acids, total monounsaturated", "Fatty acids, total polyunsaturated", "Fatty acids, total saturated",
-    "Fatty acids, total trans", "Fiber, total dietary", "Folate, DFE", "Folate, food", "Folic acid", "Iron, Fe",
-    "Magnesium", "Niacin", "Phosphorus, P", "Potassium, K", "Protein", "Riboflavin", "Sodium, Na", "Sugar alcohols",
-    "Sugars, total", "Thiamin", "Total lipid (fat)", "Vitamin A, RAE", "Vitamin B-12", "Vitamin B-6",
-    "Vitamin C, total ascorbic acid", "Vitamin D (D2 + D3)", "Vitamin E (alpha-tocopherol)", "Vitamin K (phylloquinone)",
-    "Water", "Zinc, Zn"
+    "Milk", "Eggs", "Fish", "Crustacean shellfish", "Tree nuts",
+    "Peanuts", "Wheat", "Soybeans", "Sesame", "Mustard", "Sulfites",
+    "Lupin", "Mollusks", "Celery", "Sulphur dioxide", "Gluten", "Corn",
+    "Kiwi", "Pineapple", "Avocado", "Banana", "Coconut", "Strawberries",
+    "Raspberries", "Blueberries", "Blackberries", "Mango", "Peaches", "Plums",
+    "Apples", "Pears", "Cherries", "Grapes", "Oranges", "Lemons", "Limes", "Grapefruit",
+    "Tomatoes", "Potatoes", "Carrots", "Cucumbers", "Bell peppers", "Spinach", "Broccoli",
+    "Cauliflower", "Onions", "Garlic", "Almonds", "Cashews", "Walnuts", "Pistachios"
   ];
 });
 

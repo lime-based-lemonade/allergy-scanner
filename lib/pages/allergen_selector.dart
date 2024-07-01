@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/widgets/allergen_selector.dart';
+import 'package:lime_based_application/generated/l10n.dart';
 
 class AllergenSelectorPage extends ConsumerStatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _AllergenSelectorPageState extends ConsumerState<AllergenSelectorPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Select allergens',
+          S.of(context).SelectAllergens,
           style: TextStyle(fontSize: 30),
         ),
       ),
@@ -51,7 +52,7 @@ class _AllergenSelectorPageState extends ConsumerState<AllergenSelectorPage> {
                         searchAndHighlight(text);
                       },
                       decoration: InputDecoration(
-                        labelText: 'Search',
+                        labelText: S.of(context).Search,
                         border: OutlineInputBorder(),
                       ),
                     ),
