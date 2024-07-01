@@ -14,11 +14,8 @@ class ApplicationRoutes {
 
   static  Map<String, WidgetBuilder> getRoutesMap() => {
     home: (context) => const HomePage(),
-
-    scanner: (context) => const ScannerPage(),
+    scanner: (context) => ScannerPage(),
     foodSearch: (context) => FoodSearchScreen(),
-
     allergenSelector: (context) => AllergenSelectorPage(),
-    scanner: (context) => const ScannerPage()
   };
 }

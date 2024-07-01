@@ -3,13 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:lime_based_application/routes.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-enum _DataFetchingState {
-  Idle,
-  Fetching,
-  Done
-}
+enum _DataFetchingState { idle, fetching, done, error }
 
 class FoodSearchScreen extends StatefulWidget {
   final List<String> allergens = ['milk', 'soy', 'bean'];
@@ -28,7 +25,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   String _error = '';
   String _warning = '';
   Barcode? _barcode;
-  _DataFetchingState _fetchingState = _DataFetchingState.Idle;
+  _DataFetchingState _fetchingState = _DataFetchingState.idle;
 
   Future<void> _fetchFoodData(String foodName) async {
     print('Fetching data about $foodName');
@@ -43,13 +40,16 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
+        print('status code 200');
         final data = json.decode(response.body);
         setState(() {
+          _fetchingState = _DataFetchingState.done;
           FoodData foodData = FoodData.fromJson(data);
           if (foodData.ingredients.isNotEmpty) {
             _ingredients = foodData.ingredients;
             _error = '';
           } else {
+            print('bad code: ${response.statusCode}');
             _error = S.of(context).Noingredientsfound;
             _ingredients = [];
           }
@@ -57,14 +57,17 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
         });
       } else {
         setState(() {
+          _fetchingState = _DataFetchingState.error;
           _error =
               '${S.of(context).Failedtofetchdatastatuscode}${response.statusCode}';
           _ingredients = [];
         });
       }
-    } catch (e) {
+    } catch (exception) {
+      print('catch: ${S.of(context).Networkerroroccurred}');
       setState(() {
-        _error = '${S.of(context).Networkerroroccurred}$e';
+        _fetchingState = _DataFetchingState.error;
+        _error = '${S.of(context).Networkerroroccurred}$exception';
         _ingredients = [];
       });
     }
@@ -84,39 +87,27 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
       }
     }
 
-    if (allergenMatches.isNotEmpty) {
-      _warning = '${S.of(context).WarningMessageAboutIngredient}\n';
-      allergenMatches.forEach((allergen, ingredients) {
-        _warning +=
-            '- ${S.of(context).Allergenfound(allergen)}${ingredients.join(', ')}\n';
-      });
-    } else {
-      _warning = S.of(context).Allsafe;
-    }
-  }
-
-  Widget _buildBarcode(Barcode? value) {
-    if (value == null) {
-      return const Text(
-        'Scan something!',
-        overflow: TextOverflow.fade,
-        style: TextStyle(color: Colors.white),
-      );
-    }
-
-    return Text(
-      value.displayValue ?? 'No display value.',
-      overflow: TextOverflow.fade,
-      style: const TextStyle(color: Colors.white),
-    );
+    setState(() {
+      if (allergenMatches.isNotEmpty) {
+        _warning = '${S.of(context).WarningMessageAboutIngredient}\n';
+        allergenMatches.forEach((allergen, ingredients) {
+          _warning +=
+              '- ${S.of(context).Allergenfound(allergen)}${ingredients.join(', ')}\n';
+        });
+      } else {
+        _warning = S.of(context).Allsafe;
+      }
+    });
   }
 
   void _handleBarcode(BarcodeCapture barcodes) {
     if (mounted) {
       setState(() {
         _barcode = barcodes.barcodes.firstOrNull;
-        print('barcode state updated ${barcodes.barcodes.firstOrNull?.displayValue}');
+        print(
+            'barcode state updated ${barcodes.barcodes.firstOrNull?.displayValue}');
         if (_barcode?.displayValue != null) {
+          _fetchingState = _DataFetchingState.fetching;
           _fetchFoodData(_barcode!.displayValue!);
         }
       });
@@ -126,124 +117,110 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Simple scanner')),
-      backgroundColor: Colors.black,
-      body: 
+        appBar: AppBar(title: const Text('Simple scanner')),
+        body: _buildBody());
+  }
+
+  Widget _buildBody() {
+    switch (_fetchingState) {
+      case _DataFetchingState.idle:
+        return _buildWidgetIdle();
+      case _DataFetchingState.fetching:
+        return _buildWidgetFetching();
+      case _DataFetchingState.done:
+        return _buildWidgetDone();
+      case _DataFetchingState.error:
+        return _buildWidgetError();
+    }
+  }
+
+  Widget _buildWidgetIdle() {
+    return Stack(
+      children: [
+        MobileScanner(
+          onDetect: _handleBarcode,
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            alignment: Alignment.bottomCenter,
+            height: 100,
+            color: Colors.black.withOpacity(0.4),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(child: Center(child: Text('Scan the barcode'))),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
-    Widget _buildBody() {
-      switch (_fetchingState) {
-        case _DataFetchingState.Idle:
-          return _buildWidgetIdle();
-      }
-    }
-
-    Widget _buildWidgetIdle() {
-      return Stack(
+  Widget _buildWidgetFetching() {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          MobileScanner(
-            onDetect: _handleBarcode,
+          CircularProgressIndicator(),
+          SizedBox(
+            height: 16,
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              height: 100,
-              color: Colors.black.withOpacity(0.4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                      child: Center(
-                        // child: _buildBarcode(_barcode),))
-                          child: Text(_barcode == null
-                              ? 'barcode is null'
-                              : 'Error: $_error \n Warning: $_warning\nIngredients: ${_ingredients.toString()}'))),
-                ],
-              ),
-            ),
-          ),
+          Text('Fetching data...')
         ],
-      );
-    }
+      ),
+    );
+  }
 
-    Widget _buildWidgetFetching() {
-      return Placeholder();
-    }
+  Widget _buildWidgetDone() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Data successfully fetched!',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Text(_warning),
+          const SizedBox(
+            height: 16,
+          ),
+          FilledButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, ApplicationRoutes.home),
+              child: const Text('Go back')),
+        ],
+      ),
+    );
+  }
 
-    Widget _buildWidgetDone() {
-      return Placeholder();
-    }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text(S.of(context).FindIngredients),
-  //     ),
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Column(
-  //         children: [
-  //           TextField(
-  //             controller: _foodController,
-  //             decoration: InputDecoration(
-  //               labelText: S.of(context).Enterfoodname,
-  //               border: OutlineInputBorder(),
-  //             ),
-  //           ),
-  //           SizedBox(height: 16),
-  //           TextField(
-  //             // controller: _allergenController,
-  //             decoration: InputDecoration(
-  //               labelText: S.of(context).Enterallergenscommaseparated,
-  //               border: OutlineInputBorder(),
-  //             ),
-  //           ),
-  //           SizedBox(height: 16),
-  //           ElevatedButton(
-  //             onPressed: () {
-  //               _fetchFoodData(_foodController.text);
-  //             },
-  //             child: Text(S.of(context).Search),
-  //           ),
-  //           const SizedBox(height: 16),
-  //           _error.isNotEmpty
-  //               ? Text(
-  //                   _error,
-  //                   style: TextStyle(color: Colors.red),
-  //                 )
-  //               : Expanded(
-  //                   child: Column(
-  //                     children: [
-  //                       Expanded(
-  //                         child: ListView.builder(
-  //                           itemCount: _ingredients.length,
-  //                           itemBuilder: (context, index) {
-  //                             return ListTile(
-  //                               title: Text(_ingredients[index]),
-  //                             );
-  //                           },
-  //                         ),
-  //                       ),
-  //                       SizedBox(height: 16),
-  //                       Text(
-  //                         _warning,
-  //                         style: TextStyle(
-  //                           color: _warning.contains(S.of(context).Warning)
-  //                               ? Colors.red
-  //                               : Colors.green,
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _buildWidgetError() {
+    return Center(
+      child: Column(
+        children: [
+          Text(
+            'Error fetching data',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Text(_error),
+          const SizedBox(
+            height: 16,
+          ),
+          FilledButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, ApplicationRoutes.home),
+              child: const Text('Go back')),
+        ],
+      ),
+    );
+  }
 }
 
 class FoodData {

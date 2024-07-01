@@ -68,7 +68,7 @@ class HomePage extends ConsumerWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, ApplicationRoutes.scanner);
+                      Navigator.pushNamed(context, ApplicationRoutes.foodSearch);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
