@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:lime_based_application/data/history_provider.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +10,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 enum _DataFetchingState { idle, fetching, done, error }
 
-class FoodSearchScreen extends StatefulWidget {
+class FoodSearchScreen extends ConsumerStatefulWidget {
   final List<String> allergens = ['milk', 'soy', 'bean'];
 
   FoodSearchScreen({super.key});
@@ -16,17 +19,29 @@ class FoodSearchScreen extends StatefulWidget {
   _FoodSearchScreenState createState() => _FoodSearchScreenState();
 }
 
-class _FoodSearchScreenState extends State<FoodSearchScreen> {
+class _FoodSearchScreenState extends ConsumerState<FoodSearchScreen> {
   final TextEditingController _foodController = TextEditingController();
   final String _appId = '19a79a7f';
   final String _appKey = '27976be65f8cf6a04d18861a6c4d1146';
+
   List<String> _ingredients = [];
   String _error = '';
   String _warning = '';
   Barcode? _barcode;
   _DataFetchingState _fetchingState = _DataFetchingState.idle;
 
-  Future<void> _fetchFoodData(String foodName) async {
+  void _writeIntoHistory(WidgetRef ref, FoodData data, bool compatible) {
+    final timestamp = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
+    final entry = {
+      "timestamp": timestamp,
+      "product": data.ingredients.join(', '),
+      "compatible": compatible ? "Yes" : "No"
+    };
+
+    ref.read(scanHistoryProvider.notifier).addEntry(entry);
+  }
+
+  Future<void> _fetchFoodData(String foodName, WidgetRef ref) async {
     print('Fetching data about $foodName');
 
     final url = Uri.https('api.edamam.com', '/api/food-database/v2/parser', {
@@ -41,9 +56,11 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
       if (response.statusCode == 200) {
         print('status code 200');
         final data = json.decode(response.body);
+
         setState(() {
           _fetchingState = _DataFetchingState.done;
           FoodData foodData = FoodData.fromJson(data);
+
           if (foodData.ingredients.isNotEmpty) {
             _ingredients = foodData.ingredients;
             _error = '';
@@ -52,7 +69,8 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
             _error = S.of(context).Noingredientsfound;
             _ingredients = [];
           }
-          _checkForAllergens();
+
+          _checkForAllergens(ref, foodData);
         });
       } else {
         setState(() {
@@ -72,7 +90,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
     }
   }
 
-  void _checkForAllergens() {
+  void _checkForAllergens(WidgetRef ref, FoodData data) {
     Map<String, List<String>> allergenMatches = {};
 
     for (var allergen in widget.allergens) {
@@ -85,6 +103,8 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
         }
       }
     }
+
+    _writeIntoHistory(ref, data, allergenMatches.isEmpty);
 
     setState(() {
       if (allergenMatches.isNotEmpty) {
@@ -107,7 +127,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
             'barcode state updated ${barcodes.barcodes.firstOrNull?.displayValue}');
         if (_barcode?.displayValue != null) {
           _fetchingState = _DataFetchingState.fetching;
-          _fetchFoodData(_barcode!.displayValue!);
+          _fetchFoodData(_barcode!.displayValue!, ref);
         }
       });
     }
@@ -229,6 +249,7 @@ class FoodData {
 
   factory FoodData.fromJson(Map<String, dynamic> json) {
     List<String> ingredients = [];
+
     if (json['parsed'] != null && json['parsed'].isNotEmpty) {
       ingredients = (json['parsed'][0]['food']['foodContentsLabel'] as String)
           .split(';')
@@ -240,6 +261,7 @@ class FoodData {
           .map((ingredient) => ingredient.trim().toLowerCase())
           .toList();
     }
+
     return FoodData(ingredients: ingredients);
   }
 }

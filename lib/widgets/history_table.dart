@@ -4,6 +4,8 @@ import 'package:lime_based_application/data/history_provider.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 
 class ScanHistoryTable extends ConsumerWidget {
+  const ScanHistoryTable({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scanHistory = ref.watch(scanHistoryProvider);
