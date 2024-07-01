@@ -1,16 +1,18 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class FoodSearchScreen extends StatefulWidget {
+  final Set<String> allergens;
+
+  FoodSearchScreen({required this.allergens});
+
   @override
   _FoodSearchScreenState createState() => _FoodSearchScreenState();
 }
 
 class _FoodSearchScreenState extends State<FoodSearchScreen> {
   final TextEditingController _foodController = TextEditingController();
-  final TextEditingController _allergenController = TextEditingController();
   final String _appId = '19a79a7f';
   final String _appKey = '27976be65f8cf6a04d18861a6c4d1146';
   List<String> _ingredients = [];
@@ -55,14 +57,9 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   }
 
   void _checkForAllergens() {
-    List<String> allergens = _allergenController.text
-        .split(',')
-        .map((allergen) => allergen.trim().toLowerCase())
-        .toList();
-
     Map<String, List<String>> allergenMatches = {};
 
-    for (var allergen in allergens) {
+    for (var allergen in widget.allergens) {
       for (var ingredient in _ingredients) {
         if (ingredient.contains(allergen)) {
           if (!allergenMatches.containsKey(allergen)) {
@@ -97,14 +94,6 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
               controller: _foodController,
               decoration: const InputDecoration(
                 labelText: 'Enter food name',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _allergenController,
-              decoration: const InputDecoration(
-                labelText: 'Enter allergens (comma separated)',
                 border: OutlineInputBorder(),
               ),
             ),
