@@ -1,31 +1,15 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lime_based_application/data/history_provider.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 
-class ScanHistoryTable extends StatefulWidget {
+class ScanHistoryTable extends ConsumerWidget {
   const ScanHistoryTable({super.key});
 
   @override
-  State<ScanHistoryTable> createState() => ScanHistoryTableState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scanHistory = ref.watch(scanHistoryProvider);
 
-class ScanHistoryTableState extends State<ScanHistoryTable> {
-  // Sample data
-  final List<Map<String, String>> _scanHistory = [
-    {'timestamp': '2024-06-28 14:35', 'product': 'Product 1', 'compatible': 'Yes'},
-    {'timestamp': '2024-06-28 14:36', 'product': 'Product 2', 'compatible': 'No'},
-    {'timestamp': '2024-06-28 14:37', 'product': 'Product 3', 'compatible': 'Yes'},
-    {'timestamp': '2024-06-28 14:38', 'product': 'Product 4', 'compatible': 'Yes'},
-    {'timestamp': '2024-06-28 14:39', 'product': 'Product 5', 'compatible': 'No'},
-    {'timestamp': '2024-06-28 14:40', 'product': 'Product 6', 'compatible': 'Yes'},
-    {'timestamp': '2024-06-28 14:45', 'product': 'Product 7', 'compatible': 'No'},
-    {'timestamp': '2024-06-28 14:46', 'product': 'Product 8', 'compatible': 'Yes'},
-    {'timestamp': '2024-06-28 14:49', 'product': 'Product 9', 'compatible': 'Yes'},
-    {'timestamp': '2024-06-28 14:52', 'product': 'Product 10', 'compatible': 'No'},
-  ];
-
-  @override
-  Widget build(BuildContext context) {
     return Column(
       children: [
         // Header row
@@ -38,7 +22,8 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(
-                    child: Text(S.of(context).timestamp, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(S.of(context).timestamp,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ),
@@ -47,7 +32,8 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(
-                    child: Text(S.of(context).ProductName, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(S.of(context).ProductName,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ),
@@ -56,42 +42,54 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(
-                    child: Text(S.of(context).compatibleU, style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(S.of(context).compatibleU,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ),
             ],
           ),
         ),
-        Column(
-          children: _scanHistory.map((entry) {
-            return Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Text(entry["timestamp"] ?? '')),
+        scanHistory.isEmpty
+            ? const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(
+                  child: Text(
+                    // S.of(context).nothingToShow,
+                    'Nothing to show',
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Text(entry["product"] ?? '')),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Text(entry["compatible"] ?? '')),
-                  ),
-                ),
-              ],
-            );
-          }).toList(),
-        ),
+              )
+            : Column(
+                children: scanHistory.map((entry) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(child: Text(entry["timestamp"] ?? '')),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(child: Text(entry["product"] ?? '')),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(child: Text(entry["compatible"] ?? '')),
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
       ],
     );
   }
