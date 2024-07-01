@@ -8,6 +8,8 @@ import 'package:lime_based_application/routes.dart';
 import 'package:lime_based_application/widgets/allergen_list.dart';
 import 'package:lime_based_application/widgets/allergen_selector.dart';
 import 'package:lime_based_application/widgets/history_table.dart';
+import 'package:lime_based_application/generated/l10n.dart'; // Import the localization file
+import 'package:flutter_localizations/flutter_localizations.dart'; // Import flutter localization
 
 void main() {
   testWidgets('AllergenSelectorPage displays search field and allergen list',
@@ -15,14 +17,19 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: [
+            S.delegate, // Add the localization delegate
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           home: AllergenSelectorPage(),
         ),
       ),
     );
 
-
     expect(find.byType(TextField), findsOneWidget);
-
     expect(find.byType(SelectorList), findsOneWidget);
 
     await tester.enterText(find.byType(TextField), 'peanut');
@@ -36,6 +43,13 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: [
+            S.delegate, 
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           navigatorKey: navigatorKey,
           routes: {
             ApplicationRoutes.scanner: (context) => ScannerPage(),
@@ -67,7 +81,7 @@ void main() {
     expect(fab, findsOneWidget);
     await tester.tap(fab);
     await tester.pumpAndSettle();
-    
+
     expect(find.byType(AllergenSelectorPage), findsOneWidget);
   });
 }
