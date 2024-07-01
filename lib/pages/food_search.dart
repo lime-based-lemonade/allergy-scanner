@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -6,7 +7,7 @@ import 'package:http/http.dart' as http;
 class FoodSearchScreen extends StatefulWidget {
   final Set<String> allergens;
 
-  FoodSearchScreen({required this.allergens});
+  const FoodSearchScreen({super.key, required this.allergens});
 
   @override
   _FoodSearchScreenState createState() => _FoodSearchScreenState();
@@ -45,7 +46,8 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
         });
       } else {
         setState(() {
-          _error = '${S.of(context).Failedtofetchdatastatuscode}${response.statusCode}';
+          _error =
+              '${S.of(context).Failedtofetchdatastatuscode}${response.statusCode}';
           _ingredients = [];
         });
       }
@@ -74,7 +76,8 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
     if (allergenMatches.isNotEmpty) {
       _warning = '${S.of(context).WarningMessageAboutIngredient}\n';
       allergenMatches.forEach((allergen, ingredients) {
-        _warning += '- ${S.of(context).Allergenfound(allergen)}${ingredients.join(', ')}\n';
+        _warning +=
+            '- ${S.of(context).Allergenfound(allergen)}${ingredients.join(', ')}\n';
       });
     } else {
       _warning = S.of(context).Allsafe;
@@ -136,7 +139,9 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
                         Text(
                           _warning,
                           style: TextStyle(
-                            color: _warning.contains(S.of(context).Warning) ? Colors.red : Colors.green,
+                            color: _warning.contains(S.of(context).Warning)
+                                ? Colors.red
+                                : Colors.green,
                           ),
                         ),
                       ],
