@@ -1,19 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lime_based_application/widgets/allergen_selector.dart';
 
-/// Horizontally scrollable list of allergens represented with Material chips.
-class AllergenList extends StatefulWidget {
-  // TODO: Implement the widget
-  // TODO: Useful link https://api.flutter.dev/flutter/material/Chip-class.html
-
-  const AllergenList({super.key});
-
+class AllergenList extends ConsumerStatefulWidget {
   @override
-  State<AllergenList> createState() => _AllergenListState();
+  _AllergenListState createState() => _AllergenListState();
 }
 
-class _AllergenListState extends State<AllergenList> {
+class _AllergenListState extends ConsumerState<AllergenList> {
+  bool _isExpanded = false;
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final selectedAllergens = ref.watch(selectedAllergensProvider);
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    
+    final buttonStyle = TextButton.styleFrom(
+      foregroundColor: isDarkMode ? Colors.white : Colors.black, textStyle: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (selectedAllergens.isEmpty)
+            const Text('No allergens selected')
+          else
+            dynamicChips(selectedAllergens),
+          if (selectedAllergens.length > 10)
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _isExpanded = !_isExpanded;
+                });
+              },
+              style: buttonStyle,
+              child: Text(_isExpanded ? 'Show less' : 'Show more'),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget dynamicChips(Set<String> selectedAllergens) {
+    final allergensToShow = _isExpanded
+        ? selectedAllergens
+        : selectedAllergens.take(10);
+
+    return Wrap(
+      spacing: 6.0,
+      runSpacing: 6.0,
+      children: allergensToShow.map((allergen) {
+        return Chip(
+          label: Text(allergen),
+        );
+      }).toList(),
+    );
   }
 }

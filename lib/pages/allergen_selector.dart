@@ -1,12 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lime_based_application/widgets/allergen_selector.dart';
 
-class AllergenSelectorPage extends ConsumerWidget {
-  const AllergenSelectorPage({super.key});
+class AllergenSelectorPage extends ConsumerStatefulWidget {
+  @override
+  _AllergenSelectorPageState createState() => _AllergenSelectorPageState();
+}
+
+class _AllergenSelectorPageState extends ConsumerState<AllergenSelectorPage> {
+  String searchText = '';
+  final TextEditingController _controller = TextEditingController();
+
+  void searchAndHighlight(String text) {
+    setState(() {
+      searchText = text.toLowerCase();
+    });
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold();
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Select allergens',
+          style: TextStyle(fontSize: 30),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      onChanged: (text) {
+                        setState(() {
+                          searchText = text.toLowerCase();
+                        });
+                      },
+                      onSubmitted: (text) {
+                        searchAndHighlight(text);
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Search',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () => searchAndHighlight(_controller.text),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: SelectorList(searchText: searchText),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
