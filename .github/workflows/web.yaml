@@ -27,6 +27,6 @@ jobs:
 
       - run: flutter build web --release lib/main.dart
 
-      - uses: bluefireteam/flutter-gh-pages@v7
+      - uses: bluefireteam/flutter-gh-pages@v7 # failes because workflow permissions setting not allowed
         with:
           baseHref: /
