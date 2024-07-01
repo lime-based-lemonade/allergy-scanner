@@ -29,8 +29,8 @@ class ScanHistoryTableState extends State<ScanHistoryTable> {
         // Header row
         Container(
           color: Colors.grey[300],
-          child: Row(
-            children: const [
+          child: const Row(
+            children: [
               Expanded(
                 flex: 2,
                 child: Padding(

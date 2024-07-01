@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/theme/theme.dart';
 
 class ThemeNotifier extends StateNotifier<ThemeData> {
-  ThemeNotifier() : super(lightmode);
+  ThemeNotifier() : super(lightTheme);
 
   void toggleTheme() {
-    state = state == lightmode ? darkmode : lightmode;
+    state = state == lightTheme ? darkTheme : lightTheme;
   }
 }
 
-final themeNotifierProvider = StateNotifierProvider<ThemeNotifier, ThemeData>((ref) {
+final themeNotifierProvider =
+    StateNotifierProvider<ThemeNotifier, ThemeData>((ref) {
   return ThemeNotifier();
 });

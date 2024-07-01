@@ -115,7 +115,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
               },
               child: const Text('Search'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _error.isNotEmpty
                 ? Text(
                     _error,
