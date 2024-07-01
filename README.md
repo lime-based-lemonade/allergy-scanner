@@ -11,7 +11,7 @@ Scan bar-codes on food to see whether it is safe for you to consume them. Define
 * TODO
 * The project team
 
-## How
+## How it Works
 Just open the app and click on the edit icon. There you can select allergens that the app will be able to recognize in the products and warn you. Then just go back to the main menu and click on the "Scan" button. A screen with a barcode scanner will open. If an allergen is found in the scanned product, the app will let you know about it.
 
 ## Testing
