@@ -16,7 +16,7 @@ class ApplicationRoutes {
     home: (context) => const HomePage(),
 
     scanner: (context) => const ScannerPage(),
-    foodSearch: (context) => FoodSearchScreen(),
+    // foodSearch: (context) => FoodSearchScreen(),
 
     allergenSelector: (context) => AllergenSelectorPage(),
     scanner: (context) => const ScannerPage()
