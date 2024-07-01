@@ -19,9 +19,9 @@ jobs:
           flutter-version: 3.22.2
       - run: flutter pub get
 
-      #- run: flutter test test/unit_test.dart
+      - run: flutter test test/unit_test.dart
 
-      #- run: flutter test test/widget_test.dart
+      - run: flutter test test/widget_test.dart
 
       - run: flutter analyze lib/main.dart --no-fatal-warnings --no-fatal-infos
 
@@ -29,4 +29,4 @@ jobs:
 
       - uses: bluefireteam/flutter-gh-pages@v7 # failes because workflow permissions setting not allowed
         with:
-          baseHref: /
+          customArgs: "lib/main.dart"
