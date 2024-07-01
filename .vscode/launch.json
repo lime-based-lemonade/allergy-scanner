@@ -18,5 +18,13 @@
             "deviceId": "safari",
             "program": "lib/main.dart"
         },
+        {
+            "name": "allergy-scanner-android",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "deviceId": "emulator-5554",
+            "program": "lib/main.dart"
+        },
     ]
 }
