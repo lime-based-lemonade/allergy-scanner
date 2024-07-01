@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lime_based_application/pages/scanner.dart';
 import 'package:lime_based_application/routes.dart';
 import 'package:lime_based_application/widgets/allergen_list.dart';
 import 'package:lime_based_application/widgets/history_table.dart';
 import 'package:lime_based_application/generated/l10n.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lime_based_application/pages/scanner.dart';
 import 'package:lime_based_application/providers/theme_provider.dart';
-import 'package:lime_based_application/routes.dart';
-import 'package:lime_based_application/widgets/allergen_list.dart';
-import 'package:lime_based_application/widgets/history_table.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -66,8 +58,8 @@ class HomePage extends ConsumerWidget {
                         ScanHistoryTable(),
                         SizedBox(height: 70.0), // Add empty space below the table
                       ],
-                    ),
-                  ],
+                    )
+                  ),],
                 ),
               ),
               Align(

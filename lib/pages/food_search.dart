@@ -100,7 +100,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
             ),
             SizedBox(height: 16),
             TextField(
-              controller: _allergenController,
+              // controller: _allergenController,
               decoration: InputDecoration(
                 labelText: S.of(context).Enterallergenscommaseparated,
                 border: OutlineInputBorder(),
