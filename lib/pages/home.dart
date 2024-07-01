@@ -47,8 +47,8 @@ class HomePage extends ConsumerWidget {
                       ),
                       Container(
                         margin: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(200, 175, 203, 163), // Background color
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(200, 175, 203, 163), // Background color
                           shape: BoxShape.circle, // Circular shape
                         ),
                         child: IconButton(
@@ -100,29 +100,8 @@ class HomePage extends ConsumerWidget {
                         width: 2.0,
                       ),
                     ),
+                    child: Text(S.of(context).Scan),
                   ),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, ApplicationRoutes.scanner);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
-                    textStyle: const TextStyle(fontSize: 24),
-                    foregroundColor: const Color.fromARGB(255, 60, 115, 37),
-                    side: const BorderSide(
-                      color: Color.fromARGB(255, 60, 115, 37),
-                      width: 2.0,
-                    ),
-                  ),
-                  child: Text(S.of(context).Scan),
-                ),
               ),
             ),
           ],

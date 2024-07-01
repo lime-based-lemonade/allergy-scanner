@@ -8,7 +8,6 @@ import 'package:lime_based_application/pages/home.dart';
 class ApplicationRoutes {
   static const String home = '/';
   static const String allergenSelector = '/selector';
-  static const String scanner = '/scanner';
   static const String foodSearch = '/food_search';
 
   static  Map<String, WidgetBuilder> getRoutesMap() => {
