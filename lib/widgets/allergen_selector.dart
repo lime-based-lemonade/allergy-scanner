@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lime_based_application/pages/allergen_selector.dart';
+import 'package:lime_based_application/data/allergens.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 
 Provider<List<String>> getAllergenName(BuildContext context) {
@@ -64,10 +64,6 @@ Provider<List<String>> getAllergenName(BuildContext context) {
     return allergensProvider;
 }
 
-final selectedAllergensProvider = StateProvider<Set<String>>((ref) {
-    return <String>{};
-});
-
 class SelectorList extends ConsumerWidget {
     
     final String searchText;
@@ -77,7 +73,7 @@ class SelectorList extends ConsumerWidget {
     @override
     Widget build(BuildContext context, WidgetRef ref) {
         final allergens = ref.watch(getAllergenName(context));
-        final selectedAllergens = ref.watch(selectedAllergensProvider);
+        final selectedAllergens = ref.watch(selectedAllergensProvider) ?? [];
 
         List<String> filteredAllergens = allergens.where((allergen) {
             return allergen.toLowerCase().contains(searchText.toLowerCase());
@@ -98,7 +94,7 @@ class SelectorList extends ConsumerWidget {
         );
     }
 
-    Widget dynamicChips(BuildContext context, WidgetRef ref, List<String> filteredAllergens, Set<String> selectedAllergens) {
+    Widget dynamicChips(BuildContext context, WidgetRef ref, List<String> filteredAllergens, List<String> selectedAllergens) {
         return Wrap(
             spacing: 6.0,
             runSpacing: 6.0,
@@ -113,10 +109,10 @@ class SelectorList extends ConsumerWidget {
                         } else {
                             newSelectedAllergens.remove(allergen);
                         }
-                        ref.read(selectedAllergensProvider.notifier).state = newSelectedAllergens;
+                        ref.read(selectedAllergensProvider.notifier).setAllergens(newSelectedAllergens.toList());
                     },
                     backgroundColor: isSelected
-                    ? Color(0xFFE8DEF8)
+                    ? const Color(0xFFE8DEF8)
                     : Theme.of(context).colorScheme.surface,
                     label: Text(allergen),
                 );

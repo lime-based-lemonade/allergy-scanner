@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lime_based_application/widgets/allergen_selector.dart'; // Ensure this imports the SelectorList with providers
+import 'package:lime_based_application/data/allergens.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 
 class AllergenList extends ConsumerStatefulWidget {
@@ -13,7 +13,7 @@ class _AllergenListState extends ConsumerState<AllergenList> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedAllergens = ref.watch(selectedAllergensProvider);
+    final selectedAllergens = ref.watch(selectedAllergensProvider) ?? [];
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
     
@@ -40,15 +40,15 @@ class _AllergenListState extends ConsumerState<AllergenList> {
                   _isExpanded = !_isExpanded;
                 });
               },
-              child: Text(_isExpanded ? S.of(context).Showless : S.of(context).Showmore),
               style: buttonStyle,
+              child: Text(_isExpanded ? S.of(context).Showless : S.of(context).Showmore),
             ),
         ],
       ),
     );
   }
 
-  Widget dynamicChips(Set<String> selectedAllergens) {
+  Widget dynamicChips(List<String> selectedAllergens) {
     final allergensToShow = _isExpanded
         ? selectedAllergens
         : selectedAllergens.take(10);
