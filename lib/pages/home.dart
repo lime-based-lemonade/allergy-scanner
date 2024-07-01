@@ -16,7 +16,7 @@ class HomePage extends ConsumerWidget {
         title: Text(S.of(context).AllergenScanner),
         actions: [
           IconButton(
-            icon: Icon(Icons.brightness_6),
+            icon: const Icon(Icons.brightness_6),
             onPressed: () {
               ref.read(themeNotifierProvider.notifier).toggleTheme();
             },
@@ -31,7 +31,7 @@ class HomePage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       S.of(context).Myallergens,
                       style: const TextStyle(
@@ -48,7 +48,8 @@ class HomePage extends ConsumerWidget {
                       Container(
                         margin: const EdgeInsets.all(8.0),
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(200, 175, 203, 163), // Background color
+                          color: Color.fromARGB(
+                              200, 175, 203, 163), // Background color
                           shape: BoxShape.circle, // Circular shape
                         ),
                         child: IconButton(
@@ -56,7 +57,8 @@ class HomePage extends ConsumerWidget {
                           color: Colors.white,
                           iconSize: 24.0,
                           onPressed: () {
-                            Navigator.pushNamed(context, ApplicationRoutes.allergenSelector);
+                            Navigator.pushNamed(
+                                context, ApplicationRoutes.allergenSelector);
                           },
                         ),
                       ),
@@ -72,36 +74,38 @@ class HomePage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        ScanHistoryTable(),
-                        const SizedBox(height: 70.0), // Add empty space below the table
-                      ],
-                    )
-                  ),],
-                ),
+                  const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          ScanHistoryTable(),
+                          SizedBox(
+                              height: 70.0), // Add empty space below the table
+                        ],
+                      )),
+                ],
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, ApplicationRoutes.foodSearch);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
-                      textStyle: const TextStyle(fontSize: 24),
-                      foregroundColor: const Color.fromARGB(255, 60, 115, 37),
-                      side: const BorderSide(
-                        color: Color.fromARGB(255, 60, 115, 37),
-                        width: 2.0,
-                      ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, ApplicationRoutes.foodSearch);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50.0, vertical: 20.0),
+                    textStyle: const TextStyle(fontSize: 24),
+                    foregroundColor: const Color.fromARGB(255, 60, 115, 37),
+                    side: const BorderSide(
+                      color: Color.fromARGB(255, 60, 115, 37),
+                      width: 2.0,
                     ),
-                    child: Text(S.of(context).Scan),
                   ),
+                  child: Text(S.of(context).Scan),
+                ),
               ),
             ),
           ],

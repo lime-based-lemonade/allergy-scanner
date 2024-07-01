@@ -16,11 +16,10 @@ class FoodSearchScreen extends ConsumerStatefulWidget {
   FoodSearchScreen({super.key});
 
   @override
-  _FoodSearchScreenState createState() => _FoodSearchScreenState();
+  ConsumerState<FoodSearchScreen> createState() => _FoodSearchScreenState();
 }
 
 class _FoodSearchScreenState extends ConsumerState<FoodSearchScreen> {
-  final TextEditingController _foodController = TextEditingController();
   final String _appId = '19a79a7f';
   final String _appKey = '27976be65f8cf6a04d18861a6c4d1146';
 

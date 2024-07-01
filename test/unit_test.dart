@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lime_based_application/pages/allergen_selector.dart';
+import 'package:lime_based_application/pages/food_search.dart';
 import 'package:lime_based_application/pages/home.dart';
-import 'package:lime_based_application/pages/scanner.dart';
 import 'package:lime_based_application/routes.dart';
 import 'package:lime_based_application/widgets/allergen_list.dart';
 import 'package:lime_based_application/widgets/allergen_selector.dart';
@@ -17,14 +17,14 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
-          localizationsDelegates: [
+          localizationsDelegates: const [
             S.delegate, // Add the localization delegate
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: S.delegate.supportedLocales,
-          home: AllergenSelectorPage(),
+          home: const AllergenSelectorPage(),
         ),
       ),
     );
@@ -43,8 +43,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         child: MaterialApp(
-          localizationsDelegates: [
-            S.delegate, 
+          localizationsDelegates: const [
+            S.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
@@ -52,11 +52,11 @@ void main() {
           supportedLocales: S.delegate.supportedLocales,
           navigatorKey: navigatorKey,
           routes: {
-            ApplicationRoutes.scanner: (context) => ScannerPage(),
+            ApplicationRoutes.foodSearch: (context) => FoodSearchScreen(),
             ApplicationRoutes.allergenSelector: (context) =>
-                AllergenSelectorPage(),
+                const AllergenSelectorPage(),
           },
-          home: HomePage(),
+          home: const HomePage(),
         ),
       ),
     );
@@ -72,7 +72,7 @@ void main() {
     await tester.tap(scanButton);
     await tester.pumpAndSettle();
 
-    expect(find.byType(ScannerPage), findsOneWidget);
+    expect(find.byType(FoodSearchScreen), findsOneWidget);
 
     navigatorKey.currentState!.pop();
     await tester.pumpAndSettle();

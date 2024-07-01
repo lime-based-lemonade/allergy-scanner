@@ -4,8 +4,10 @@ import 'package:lime_based_application/data/allergens_provider.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 
 class AllergenList extends ConsumerStatefulWidget {
+  const AllergenList({super.key});
+
   @override
-  _AllergenListState createState() => _AllergenListState();
+  ConsumerState<AllergenList> createState() => _AllergenListState();
 }
 
 class _AllergenListState extends ConsumerState<AllergenList> {
@@ -16,9 +18,10 @@ class _AllergenListState extends ConsumerState<AllergenList> {
     final selectedAllergens = ref.watch(selectedAllergensProvider) ?? [];
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
-    
+
     final buttonStyle = TextButton.styleFrom(
-      foregroundColor: isDarkMode ? Colors.white : Colors.black, textStyle: const TextStyle(
+      foregroundColor: isDarkMode ? Colors.white : Colors.black,
+      textStyle: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
@@ -41,7 +44,9 @@ class _AllergenListState extends ConsumerState<AllergenList> {
                 });
               },
               style: buttonStyle,
-              child: Text(_isExpanded ? S.of(context).Showless : S.of(context).Showmore),
+              child: Text(_isExpanded
+                  ? S.of(context).Showless
+                  : S.of(context).Showmore),
             ),
         ],
       ),
@@ -49,9 +54,8 @@ class _AllergenListState extends ConsumerState<AllergenList> {
   }
 
   Widget dynamicChips(List<String> selectedAllergens) {
-    final allergensToShow = _isExpanded
-        ? selectedAllergens
-        : selectedAllergens.take(10);
+    final allergensToShow =
+        _isExpanded ? selectedAllergens : selectedAllergens.take(10);
 
     return Wrap(
       spacing: 6.0,

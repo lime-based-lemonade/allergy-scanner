@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lime_based_application/pages/food_search.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:lime_based_application/pages/home.dart';
 import 'package:lime_based_application/routes.dart';
-import 'package:lime_based_application/pages/scanner.dart';
 import 'package:lime_based_application/pages/allergen_selector.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 
@@ -15,17 +15,19 @@ void main() {
     HttpOverrides.global = null;
   });
 
-  testWidgets('HomePage displays elements and responds to interactions', (WidgetTester tester) async {
+  testWidgets('HomePage displays elements and responds to interactions',
+      (WidgetTester tester) async {
     await mockNetworkImagesFor(() async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
             home: HomePage(),
             routes: {
-              ApplicationRoutes.scanner: (context) => ScannerPage(),
-              ApplicationRoutes.allergenSelector: (context) => AllergenSelectorPage(),
+              ApplicationRoutes.foodSearch: (context) => FoodSearchScreen(),
+              ApplicationRoutes.allergenSelector: (context) =>
+                  const AllergenSelectorPage(),
             },
-            localizationsDelegates: [
+            localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
@@ -44,9 +46,9 @@ void main() {
 
       await tester.tap(find.text('Scan'));
       await tester.pumpAndSettle();
-      expect(find.byType(ScannerPage), findsOneWidget);
+      expect(find.byType(FoodSearchScreen), findsOneWidget);
 
-      Navigator.pop(tester.element(find.byType(ScannerPage)));
+      Navigator.pop(tester.element(find.byType(FoodSearchScreen)));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(FloatingActionButton));
@@ -61,7 +63,9 @@ void main() {
     });
   });
 
-  testWidgets('AllergenSelectorPage displays elements and responds to interactions', (WidgetTester tester) async {
+  testWidgets(
+      'AllergenSelectorPage displays elements and responds to interactions',
+      (WidgetTester tester) async {
     await mockNetworkImagesFor(() async {
       // Arrange
       await tester.pumpWidget(
@@ -69,10 +73,10 @@ void main() {
           child: MaterialApp(
             home: Builder(
               builder: (BuildContext context) {
-                return AllergenSelectorPage();
+                return const AllergenSelectorPage();
               },
             ),
-            localizationsDelegates: [
+            localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
@@ -83,15 +87,13 @@ void main() {
         ),
       );
 
-      await tester.pumpAndSettle(); 
-
+      await tester.pumpAndSettle();
 
       expect(find.byType(TextField), findsOneWidget);
       expect(find.byIcon(Icons.search), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.search));
       await tester.pump();
-
     });
   });
 }

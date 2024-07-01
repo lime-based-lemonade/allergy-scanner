@@ -4,8 +4,11 @@ import 'package:lime_based_application/widgets/allergen_selector.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 
 class AllergenSelectorPage extends ConsumerStatefulWidget {
+  const AllergenSelectorPage({super.key});
+
   @override
-  _AllergenSelectorPageState createState() => _AllergenSelectorPageState();
+  ConsumerState<AllergenSelectorPage> createState() =>
+      _AllergenSelectorPageState();
 }
 
 class _AllergenSelectorPageState extends ConsumerState<AllergenSelectorPage> {
@@ -30,7 +33,7 @@ class _AllergenSelectorPageState extends ConsumerState<AllergenSelectorPage> {
       appBar: AppBar(
         title: Text(
           S.of(context).SelectAllergens,
-          style: TextStyle(fontSize: 30),
+          style: const TextStyle(fontSize: 30),
         ),
       ),
       body: Center(
@@ -53,13 +56,13 @@ class _AllergenSelectorPageState extends ConsumerState<AllergenSelectorPage> {
                       },
                       decoration: InputDecoration(
                         labelText: S.of(context).Search,
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   IconButton(
-                    icon: Icon(Icons.search),
+                    icon: const Icon(Icons.search),
                     onPressed: () => searchAndHighlight(_controller.text),
                   ),
                 ],

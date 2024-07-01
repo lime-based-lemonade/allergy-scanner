@@ -20,7 +20,7 @@ class ScanHistoryTable extends ConsumerWidget {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(S.of(context).timestamp,
                         style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -30,7 +30,7 @@ class ScanHistoryTable extends ConsumerWidget {
               Expanded(
                 flex: 3,
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(S.of(context).ProductName,
                         style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -40,7 +40,7 @@ class ScanHistoryTable extends ConsumerWidget {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(S.of(context).compatibleU,
                         style: const TextStyle(fontWeight: FontWeight.bold)),
