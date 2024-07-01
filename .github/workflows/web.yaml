@@ -25,7 +25,7 @@ jobs:
 
       - run: flutter analyze lib/main.dart --no-fatal-warnings --no-fatal-infos
 
-      - run: flatter build web
+      - run: flutter build web
 
       # - uses: bluefireteam/flutter-gh-pages@v7
         # with:
