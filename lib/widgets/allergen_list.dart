@@ -14,6 +14,15 @@ class _AllergenListState extends ConsumerState<AllergenList> {
   @override
   Widget build(BuildContext context) {
     final selectedAllergens = ref.watch(selectedAllergensProvider);
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    
+    final buttonStyle = TextButton.styleFrom(
+      foregroundColor: isDarkMode ? Colors.white : Colors.black, textStyle: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+    );
 
     return Padding(
       padding: const EdgeInsets.all(16.0),

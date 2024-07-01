@@ -12,7 +12,6 @@ class ApplicationRoutes {
   static const String scanner = '/scanner';
   static const String foodSearch = '/food_search';
 
-  /// Get the map of application routes with widget builder functions
   static  Map<String, WidgetBuilder> getRoutesMap() => {
     home: (context) => const HomePage(),
 
