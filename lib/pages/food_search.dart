@@ -1,16 +1,20 @@
 import 'dart:convert';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lime_based_application/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class FoodSearchScreen extends StatefulWidget {
+  final Set<String> allergens;
+
+  const FoodSearchScreen({super.key, required this.allergens});
+
   @override
   _FoodSearchScreenState createState() => _FoodSearchScreenState();
 }
 
 class _FoodSearchScreenState extends State<FoodSearchScreen> {
   final TextEditingController _foodController = TextEditingController();
-  final TextEditingController _allergenController = TextEditingController();
   final String _appId = '19a79a7f';
   final String _appKey = '27976be65f8cf6a04d18861a6c4d1146';
   List<String> _ingredients = [];
@@ -35,34 +39,30 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
             _ingredients = foodData.ingredients;
             _error = '';
           } else {
-            _error = 'No ingredients found for this product';
+            _error = S.of(context).Noingredientsfound;
             _ingredients = [];
           }
           _checkForAllergens();
         });
       } else {
         setState(() {
-          _error = 'Failed to fetch data, status code: ${response.statusCode}';
+          _error =
+              '${S.of(context).Failedtofetchdatastatuscode}${response.statusCode}';
           _ingredients = [];
         });
       }
     } catch (e) {
       setState(() {
-        _error = 'Network error occurred: $e';
+        _error = '${S.of(context).Networkerroroccurred}$e';
         _ingredients = [];
       });
     }
   }
 
   void _checkForAllergens() {
-    List<String> allergens = _allergenController.text
-        .split(',')
-        .map((allergen) => allergen.trim().toLowerCase())
-        .toList();
-
     Map<String, List<String>> allergenMatches = {};
 
-    for (var allergen in allergens) {
+    for (var allergen in widget.allergens) {
       for (var ingredient in _ingredients) {
         if (ingredient.contains(allergen)) {
           if (!allergenMatches.containsKey(allergen)) {
@@ -74,12 +74,13 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
     }
 
     if (allergenMatches.isNotEmpty) {
-      _warning = 'Warning: The following ingredients match your allergens:\n';
+      _warning = '${S.of(context).WarningMessageAboutIngredient}\n';
       allergenMatches.forEach((allergen, ingredients) {
-        _warning += '- Allergen "$allergen" found in: ${ingredients.join(', ')}\n';
+        _warning +=
+            '- ${S.of(context).Allergenfound(allergen)}${ingredients.join(', ')}\n';
       });
     } else {
-      _warning = 'All safe!';
+      _warning = S.of(context).Allsafe;
     }
   }
 
@@ -87,7 +88,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Find Ingredients'),
+        title: Text(S.of(context).FindIngredients),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -95,16 +96,16 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
           children: [
             TextField(
               controller: _foodController,
-              decoration: const InputDecoration(
-                labelText: 'Enter food name',
+              decoration: InputDecoration(
+                labelText: S.of(context).Enterfoodname,
                 border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
             TextField(
-              controller: _allergenController,
-              decoration: const InputDecoration(
-                labelText: 'Enter allergens (comma separated)',
+              // controller: _allergenController,
+              decoration: InputDecoration(
+                labelText: S.of(context).Enterallergenscommaseparated,
                 border: OutlineInputBorder(),
               ),
             ),
@@ -113,7 +114,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
               onPressed: () {
                 _fetchFoodData(_foodController.text);
               },
-              child: const Text('Search'),
+              child: Text(S.of(context).Search),
             ),
             const SizedBox(height: 16),
             _error.isNotEmpty
@@ -138,7 +139,9 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
                         Text(
                           _warning,
                           style: TextStyle(
-                            color: _warning.contains('Warning') ? Colors.red : Colors.green,
+                            color: _warning.contains(S.of(context).Warning)
+                                ? Colors.red
+                                : Colors.green,
                           ),
                         ),
                       ],

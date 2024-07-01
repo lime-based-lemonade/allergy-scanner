@@ -1,21 +1,20 @@
-  import 'package:flutter/material.dart';
-  import 'package:flutter_riverpod/flutter_riverpod.dart';
-  import 'package:lime_based_application/pages/scanner.dart';
-  import 'package:lime_based_application/providers/theme_provider.dart';
-  import 'package:lime_based_application/routes.dart';
-  import 'package:lime_based_application/widgets/allergen_list.dart';
-  import 'package:lime_based_application/widgets/history_table.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lime_based_application/routes.dart';
+import 'package:lime_based_application/widgets/allergen_list.dart';
+import 'package:lime_based_application/widgets/history_table.dart';
+import 'package:lime_based_application/generated/l10n.dart';
+import 'package:lime_based_application/providers/theme_provider.dart';
 
-
-  class HomePage extends ConsumerWidget {
-    const HomePage({super.key});
-
-    @override
-    Widget build(BuildContext context, WidgetRef ref) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Allergen Scanner'),
-          actions: [
+class HomePage extends ConsumerWidget {
+  const HomePage({super.key});
+    
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(S.of(context).AllergenScanner),
+        actions: [
             IconButton(
               icon: Icon(Icons.brightness_6),
               onPressed: () {
@@ -23,45 +22,44 @@
               },
             ),
           ],
-        ),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'My allergens',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+      ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      S.of(context).Myallergens,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    AllergenList(),
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'History',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  ),
+                  AllergenList(),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      S.of(context).History,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          ScanHistoryTable(),
-                          const SizedBox(height: 70.0),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        ScanHistoryTable(),
+                        SizedBox(height: 70.0), // Add empty space below the table
+                      ],
+                    )
+                  ),],
                 ),
               ),
               Align(
@@ -81,7 +79,7 @@
                         width: 2.0,
                       ),
                     ),
-                    child: const Text('Scan'),
+                    child: Text(S.of(context).Scan),
                   ),
                 ),
               ),
