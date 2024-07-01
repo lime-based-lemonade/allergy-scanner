@@ -24,5 +24,8 @@
     "Enterallergenscommaseparated": "Введите аллергены (через запятую)",
     "Search": "Поиск",
     "Warning": "Внимание",
-    "SelectAllergens": "Выбор аллергенов"
+    "SelectAllergens": "Выбор аллергенов",
+    "Networkerroroccurred": "Network error occurred: ",
+    "Failedtofetchdatastatuscode": "Не удалось получить данные, код состояния: ",
+    "Noingredientsfound": "Ингредиенты для этого продукта не найдены"
 }

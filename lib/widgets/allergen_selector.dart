@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lime_based_application/pages/allergen_selector.dart';
+import 'package:lime_based_application/generated/l10n.dart';
 
 final allergensProvider = Provider<List<String>>((ref) {
   return [

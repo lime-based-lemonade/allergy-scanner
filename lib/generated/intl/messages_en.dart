@@ -24,8 +24,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "AllergenCereals": MessageLookupByLibrary.simpleMessage("Cereals"),
+        "AllergenEggs": MessageLookupByLibrary.simpleMessage("Eggs"),
+        "AllergenFish": MessageLookupByLibrary.simpleMessage("Fish"),
+        "AllergenGluten": MessageLookupByLibrary.simpleMessage("Gluten"),
+        "AllergenMilk": MessageLookupByLibrary.simpleMessage("Milk"),
+        "AllergenNuts": MessageLookupByLibrary.simpleMessage("Nuts"),
+        "AllergenOther": MessageLookupByLibrary.simpleMessage("Other"),
+        "AllergenPeanuts": MessageLookupByLibrary.simpleMessage("Peanuts"),
         "AllergenScanner":
             MessageLookupByLibrary.simpleMessage("Allergen Scanner"),
+        "AllergenSoybeans": MessageLookupByLibrary.simpleMessage("Soybeans"),
+        "AllergenWheat": MessageLookupByLibrary.simpleMessage("Wheat"),
         "Allergenfound": m0,
         "Allsafe": MessageLookupByLibrary.simpleMessage("All safe!"),
         "Enterallergenscommaseparated": MessageLookupByLibrary.simpleMessage(

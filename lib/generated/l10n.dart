@@ -289,6 +289,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Milk`
+  String get AllergenMilk {
+    return Intl.message(
+      'Milk',
+      name: 'AllergenMilk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cereals`
+  String get AllergenCereals {
+    return Intl.message(
+      'Cereals',
+      name: 'AllergenCereals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Eggs`
+  String get AllergenEggs {
+    return Intl.message(
+      'Eggs',
+      name: 'AllergenEggs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fish`
+  String get AllergenFish {
+    return Intl.message(
+      'Fish',
+      name: 'AllergenFish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gluten`
+  String get AllergenGluten {
+    return Intl.message(
+      'Gluten',
+      name: 'AllergenGluten',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nuts`
+  String get AllergenNuts {
+    return Intl.message(
+      'Nuts',
+      name: 'AllergenNuts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Peanuts`
+  String get AllergenPeanuts {
+    return Intl.message(
+      'Peanuts',
+      name: 'AllergenPeanuts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Soybeans`
+  String get AllergenSoybeans {
+    return Intl.message(
+      'Soybeans',
+      name: 'AllergenSoybeans',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wheat`
+  String get AllergenWheat {
+    return Intl.message(
+      'Wheat',
+      name: 'AllergenWheat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get AllergenOther {
+    return Intl.message(
+      'Other',
+      name: 'AllergenOther',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

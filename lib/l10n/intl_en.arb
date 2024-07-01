@@ -25,7 +25,6 @@
     "Search": "Search",
     "Warning": "Warning",
     "SelectAllergens": "Select Allergens",
-
     "Networkerroroccurred": "Network error occurred: ",
     "Failedtofetchdatastatuscode": "Failed to fetch data, status code: ",
     "Noingredientsfound": "No ingredients found for this product"
