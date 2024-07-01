@@ -26,8 +26,3 @@ jobs:
       - run: flutter analyze lib/main.dart --no-fatal-warnings --no-fatal-infos
 
       - run: flutter build web
-
-      # - uses: bluefireteam/flutter-gh-pages@v7
-        # with:
-        #   baseHref: /Sum24FlutterCourse/
-        #   customArgs: "lib/main.dart"
