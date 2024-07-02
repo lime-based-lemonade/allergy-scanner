@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:lime_based_application/data/allergens_provider.dart';
 import 'package:lime_based_application/data/history_provider.dart';
 import 'package:lime_based_application/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -92,9 +93,11 @@ class _FoodSearchScreenState extends ConsumerState<FoodSearchScreen> {
   void _checkForAllergens(WidgetRef ref, FoodData data) {
     Map<String, List<String>> allergenMatches = {};
 
-    for (var allergen in widget.allergens) {
+    final allergens = ref.watch(selectedAllergensProvider) ?? [];
+
+    for (var allergen in allergens) {
       for (var ingredient in _ingredients) {
-        if (ingredient.contains(allergen)) {
+        if (ingredient.toLowerCase().contains(allergen.toLowerCase())) {
           if (!allergenMatches.containsKey(allergen)) {
             allergenMatches[allergen] = [];
           }

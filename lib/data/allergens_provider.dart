@@ -45,6 +45,7 @@ class AllergenListStateNotifier extends StateNotifier<List<String>?> {
   // TODO: Remove this in the future, widgets should update allergens on at a time
   void setAllergens(List<String> allergens) {
     state = allergens;
+    _saveAllergens();
   }
 
   void _ensureState() {
